@@ -1,161 +1,83 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import {
-	PRIMARY_WEAPON,
-	PRIMARY_WEAPONS,
-	SECONDARY_WEAPON,
-	SECONDARY_WEAPONS,
-} from './weapons';
 
 function App() {
-	const { data, isLoading } = useQuery({
-		queryKey: ['ninjas'],
-		queryFn: fetchNinjas,
-	});
-
-	const { data: axe } = useQuery({
-		queryKey: ['axe'],
-		queryFn: fetchAxeWeapon,
-	});
-
-	console.log({ axe });
-
-	// states
 	const [ninjaName, setNinjaName] = React.useState('');
-	const [primaryWeapon, setPrimaryWeapon] = React.useState<PRIMARY_WEAPON>({
-		name: 'asd',
-		damage: 0,
-		// attackSpeed: AttackSpeed.SLOW,
+	const [selectedWeapon, setSelectedWeapon] = React.useState('');
+	const [ninjaDetails, setNinjaDetails] = React.useState({});
+
+	const { data: ninjas } = useQuery({
+		queryKey: ['ninjas'],
+		queryFn: getNinjas,
 	});
-	const [secondaryWeapon, setSecondaryWeapon] =
-		React.useState<SECONDARY_WEAPON>({
-			name: 'asd',
-		});
 
-	//
+	const { data: weaponList } = useQuery({
+		queryKey: ['weapon-list'],
+		queryFn: getWeaponList,
+	});
 
-	const primaryWeaponDetails = (primaryWeapon: string) => {
-		switch (primaryWeapon) {
-			case 'axe':
-		}
-	};
+	const {
+		data: specific_weapon,
+		isLoading,
+		isFetched,
+	} = useQuery({
+		queryKey: ['weapon-list', selectedWeapon || ''],
+		queryFn: () => getSelectedWeapon(selectedWeapon),
+		enabled: !!selectedWeapon,
+	});
 
-	const newNinja = {
-		name: ninjaName,
-		weapons: [primaryWeapon, secondaryWeapon],
-	};
-
-	const submitHandler = (e: any) => {
-		e.preventDefault();
-		console.log(newNinja);
-
-		createNinja(newNinja);
-	};
+	console.log(specific_weapon);
 
 	return (
-		<>
-			<form action='' onSubmit={submitHandler}>
-				<p>
-					<label htmlFor='name'>ninja: </label>
-				</p>
-				<input
-					type='text'
-					name='name'
-					id='name'
-					onChange={(e) => setNinjaName(e.target.value)}
-				/>
-				<p>Primary Weapon:</p>
-				<select
-					name='name'
-					onChange={(e) =>
-						setPrimaryWeapon({
-							...primaryWeapon,
-							[e.target.name]: e.target.value,
-						})
-					}
-					value={primaryWeapon.name}
-				>
-					{PRIMARY_WEAPONS.map((weapon) => {
-						return (
-							<option key={weapon.name} value={weapon.name}>
-								{weapon.name}
-							</option>
-						);
-					})}
-				</select>
-				<p>Secondary Weapon:</p>
-				<select
-					name='name'
-					onChange={(e) =>
-						setSecondaryWeapon({
-							...secondaryWeapon,
-							[e.target.name]: e.target.value,
-						})
-					}
-					value={secondaryWeapon.name}
-				>
-					{SECONDARY_WEAPONS.map((weapon) => {
-						return (
-							<option key={weapon.name} value={weapon.name}>
-								{weapon.name}
-							</option>
-						);
-					})}
-				</select>
-				<br />
-				<br />
-				<input type='submit' value='create ninja' />
-			</form>
-			{/* _______________________________________ */}
-			<h3>Created Ninjas:</h3>
-			{isLoading ? (
-				<p>loading...</p>
-			) : (
-				data?.map((ninja: any) => {
+		<React.Fragment>
+			<select
+				name='weapons'
+				id='weapons'
+				onChange={(e: any) => {
+					setSelectedWeapon(e.target.value);
+				}}
+			>
+				<option value=''>primary weapon</option>;
+				{weaponList?.map((weapon: any) => {
 					return (
-						<main key={ninja.id}>
-							<p>{ninja.name}</p>
-						</main>
+						<option value={weapon.name} key={weapon.id}>
+							{weapon.name}
+						</option>
 					);
-				})
-			)}
-		</>
+				})}
+			</select>
+		</React.Fragment>
 	);
+}
 
-	// APIs
+async function createNinja(data: any) {
+	return await fetch('http://localhost:3000/ninja/create', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(data),
+	})
+		.then((response) => response.json())
+		.catch((error) => {
+			console.error('Error:', error);
+		});
+}
 
-	async function fetchAxeWeapon() {
-		const response = await fetch('http://localhost:3000/ninja/axe');
-		const data = response.json();
+async function getNinjas() {
+	const response = await fetch('http://localhost:3000/ninja/all');
+	return response.json();
+}
 
-		return data;
-	}
+async function getWeaponList() {
+	const response = await fetch('http://localhost:3000/weapons');
+	return response.json();
+}
 
-	async function createNinja(data: any) {
-		return await fetch('http://localhost:3000/ninja/create', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(data),
-		})
-			.then((response) => response.json())
-			.then((responseData) => {
-				// Process the response data
-				console.log(responseData);
-			})
-			.catch((error) => {
-				// Handle any errors
-				console.error('Error:', error);
-			});
-	}
-
-	async function fetchNinjas() {
-		const response = await fetch('http://localhost:3000/ninja/all');
-		const data = response.json();
-
-		return data;
-	}
+async function getSelectedWeapon(name: string) {
+	return (
+		await fetch(`http://localhost:3000/weapons/selected-weapon/?name=${name}`)
+	).json();
 }
 
 export default App;
