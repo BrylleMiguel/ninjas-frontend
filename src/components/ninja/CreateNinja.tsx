@@ -7,19 +7,17 @@ export default function CreateNinja() {
 	const queryClient = useQueryClient();
 
 	const [ninjaName, setNinjaName] = useState('');
-	const [ninjaWeapon, setNinjaWeapon] = useState({
-		id: nanoid(),
-		name: '',
-	});
+	const [ninjaWeapon, setNinjaWeapon] = useState('');
 
-	console.log({ ninjaName, ninjaWeapon });
-
-	const { data: createdNinja, mutate } = useMutation(createNinja, {
+	const { data: mutateNinja, mutate } = useMutation({
+		mutationFn: createNinja,
 		onSuccess: (data) => {
 			queryClient.setQueryData(['ninjas', data.id], data);
 			queryClient.invalidateQueries(['ninjas'], { exact: true });
 		},
 	});
+
+	console.log(mutateNinja);
 
 	const { data: weaponList } = useQuery({
 		queryKey: ['weapon-list'],
@@ -28,9 +26,11 @@ export default function CreateNinja() {
 
 	const { data: selectedWeapon } = useQuery({
 		queryKey: ['weapon-list', ninjaWeapon],
-		queryFn: () => getWeapon(ninjaWeapon.name),
+		queryFn: () => getWeapon(ninjaWeapon),
 		enabled: !!ninjaWeapon,
 	});
+
+	console.log({ ninjaWeapon, selectedWeapon });
 
 	return (
 		<div>
@@ -47,9 +47,9 @@ export default function CreateNinja() {
 				<select
 					name='name'
 					id='name'
-					onChange={(e) =>
-						setNinjaWeapon({ ...ninjaWeapon, [e.target.name]: e.target.value })
-					}
+					onChange={(e) => {
+						setNinjaWeapon(e.target.value);
+					}}
 				>
 					{weaponList?.map((weapon: any) => {
 						return (
@@ -59,14 +59,16 @@ export default function CreateNinja() {
 						);
 					})}
 				</select>
-				<input type='submit' value='create ninja' />
+				<input type='submit' value='create ninja' name='ninjaWeapon' />
 			</form>
 		</div>
 	);
 
 	function onSubmitHandler(e: any) {
 		e.preventDefault();
-
-		mutate({ name: ninjaName, weapon: ninjaWeapon });
+		mutate({
+			name: ninjaName,
+			primaryWeapon: { ...selectedWeapon, id: nanoid() },
+		});
 	}
 }

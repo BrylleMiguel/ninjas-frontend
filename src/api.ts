@@ -4,15 +4,15 @@ import axios from 'axios';
 
 export async function createNinja({
 	name,
-	weapon,
+	primaryWeapon,
 }: {
 	name: any;
-	weapon: any;
+	primaryWeapon: any;
 }) {
 	return await axios
 		.post('http://localhost:3000/ninja/create', {
 			name,
-			weapon,
+			primaryWeapon,
 		})
 		.then((response) => response.data)
 		.catch((error) => {
@@ -33,8 +33,7 @@ export async function getWeaponList() {
 }
 
 export async function getWeapon(name: string | null) {
-	if (name)
-		await fetch(`http://localhost:3000/weapons/selected-weapon/?name=${name}`);
-
-	return;
+	return await fetch(
+		`http://localhost:3000/weapons/selected-weapon/?name=${name}`
+	).then((data) => data.json());
 }
