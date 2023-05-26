@@ -33,7 +33,17 @@ export async function getWeaponList() {
 }
 
 export async function getWeapon(name: string | null) {
-	return await fetch(
-		`http://localhost:3000/weapons/selected-weapon/?name=${name}`
-	).then((data) => data.json());
+	try {
+		const response = await fetch(
+			`http://localhost:3000/weapons/selected-weapon/?name=${name}`
+		);
+		if (!response.ok) {
+			throw new Error(`Request failed with status ${response.status}`);
+		}
+		const data = await response.json();
+		console.log(data);
+		return data;
+	} catch (error) {
+		console.log(error);
+	}
 }

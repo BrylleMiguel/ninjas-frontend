@@ -1,39 +1,49 @@
-import { nanoid } from 'nanoid';
-import { useState } from 'react';
+import { Select } from '@mantine/core';
+import { GiNinjaStar } from 'react-icons/gi';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { createNinja, getWeapon, getWeaponList } from '../../api';
+import { createNinja, getWeapon } from '../../api';
 
-export default function CreateNinja() {
+export default function CreateNinja(props: any) {
+	const { ninjaName, ninjaWeapon, setNinjaName, setNinjaWeapon } = props;
 	const queryClient = useQueryClient();
 
-	const [ninjaName, setNinjaName] = useState('');
-	const [ninjaWeapon, setNinjaWeapon] = useState('');
-
-	const { data: mutateNinja, mutate } = useMutation({
+	const { data: ninjaMutation, mutate } = useMutation({
 		mutationFn: createNinja,
 		onSuccess: (data) => {
 			queryClient.setQueryData(['ninjas', data.id], data);
 			queryClient.invalidateQueries(['ninjas'], { exact: true });
 		},
-	});
-
-	console.log(mutateNinja);
-
-	const { data: weaponList } = useQuery({
-		queryKey: ['weapon-list'],
-		queryFn: getWeaponList,
+		onError: (err) => {
+			console.log(err);
+		},
 	});
 
 	const { data: selectedWeapon } = useQuery({
-		queryKey: ['weapon-list', ninjaWeapon],
+		queryKey: ['selected-weapon', ninjaWeapon],
 		queryFn: () => getWeapon(ninjaWeapon),
 		enabled: !!ninjaWeapon,
 	});
+
+	// weapon list
+
+	const weaponList = [
+		{
+			value: 'long-sword',
+			label: 'Long Sword',
+		},
+		{
+			value: 'axe',
+			label: 'Axe',
+		},
+	];
 
 	console.log({ ninjaWeapon, selectedWeapon });
 
 	return (
 		<div>
+			<h1>
+				<GiNinjaStar />
+			</h1>
 			<form action='' onSubmit={onSubmitHandler}>
 				<input
 					type='text'
@@ -44,21 +54,11 @@ export default function CreateNinja() {
 				/>
 				<br />
 
-				<select
-					name='name'
-					id='name'
-					onChange={(e) => {
-						setNinjaWeapon(e.target.value);
-					}}
-				>
-					{weaponList?.map((weapon: any) => {
-						return (
-							<option key={weapon.id} value={weapon.name}>
-								{weapon.name}
-							</option>
-						);
-					})}
-				</select>
+				<Select
+					data={weaponList}
+					value={ninjaWeapon}
+					onChange={(value) => setNinjaWeapon(value)}
+				/>
 				<input type='submit' value='create ninja' name='ninjaWeapon' />
 			</form>
 		</div>
@@ -68,7 +68,7 @@ export default function CreateNinja() {
 		e.preventDefault();
 		mutate({
 			name: ninjaName,
-			primaryWeapon: { ...selectedWeapon, id: nanoid() },
+			primaryWeapon: selectedWeapon,
 		});
 	}
 }
