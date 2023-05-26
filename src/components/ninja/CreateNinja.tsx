@@ -1,5 +1,6 @@
-import { Select } from '@mantine/core';
-import { GiNinjaStar } from 'react-icons/gi';
+import { Select, TextInput } from '@mantine/core';
+import { nanoid } from 'nanoid';
+import { GiNinjaHead } from 'react-icons/gi';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { createNinja, getWeapon } from '../../api';
 
@@ -10,7 +11,7 @@ export default function CreateNinja(props: any) {
 	const { data: ninjaMutation, mutate } = useMutation({
 		mutationFn: createNinja,
 		onSuccess: (data) => {
-			queryClient.setQueryData(['ninjas', data.id], data);
+			queryClient.setQueryData(['ninjas', data?.id], data);
 			queryClient.invalidateQueries(['ninjas'], { exact: true });
 		},
 		onError: (err) => {
@@ -41,14 +42,13 @@ export default function CreateNinja(props: any) {
 
 	return (
 		<div>
-			<h1>
-				<GiNinjaStar />
-			</h1>
 			<form action='' onSubmit={onSubmitHandler}>
-				<input
+				<TextInput
 					type='text'
 					name='ninja-name'
 					id='ninja-name'
+					label='Your turtle name'
+					icon={<GiNinjaHead />}
 					value={ninjaName}
 					onChange={(e) => setNinjaName(e.target.value)}
 				/>
@@ -68,7 +68,7 @@ export default function CreateNinja(props: any) {
 		e.preventDefault();
 		mutate({
 			name: ninjaName,
-			primaryWeapon: selectedWeapon,
+			primaryWeapon: { ...selectedWeapon, id: nanoid() },
 		});
 	}
 }

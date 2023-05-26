@@ -1,6 +1,7 @@
-import { Button, Drawer } from '@mantine/core';
+import { Button, Container, Drawer } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import React, { useState } from 'react';
+import { GiNinjaHead } from 'react-icons/gi';
 import CreateNinja from './components/ninja/CreateNinja';
 import NinjaList from './components/ninja/NinjaList';
 
@@ -12,22 +13,32 @@ function App() {
 
 	return (
 		<React.Fragment>
-			<Drawer
-				opened={opened}
-				onClose={() => {
-					return close;
-				}}
-				title='Create Ninja'
-			>
-				<CreateNinja
-					ninjaName={ninjaName}
-					ninjaWeapon={ninjaWeapon}
-					setNinjaName={setNinjaName}
-					setNinjaWeapon={setNinjaWeapon}
-				/>
-			</Drawer>
-			<Button onClick={open}>Create Ninja</Button>
-			<NinjaList />
+			<Container mt={10}>
+				<Drawer
+					opened={opened}
+					onClose={() => {
+						if (ninjaName || ninjaWeapon) return;
+						else return close();
+					}}
+					title='Create Ninja'
+				>
+					<CreateNinja
+						ninjaName={ninjaName}
+						ninjaWeapon={ninjaWeapon}
+						setNinjaName={setNinjaName}
+						setNinjaWeapon={setNinjaWeapon}
+					/>
+				</Drawer>
+				<Button
+					radius={0}
+					onClick={open}
+					variant='outline'
+					leftIcon={<GiNinjaHead />}
+				>
+					Create Ninja
+				</Button>
+				<NinjaList />
+			</Container>
 		</React.Fragment>
 	);
 }
