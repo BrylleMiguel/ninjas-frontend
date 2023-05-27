@@ -16,10 +16,8 @@ function App() {
 			<Container mt={10}>
 				<Drawer
 					opened={opened}
-					onClose={() => {
-						if (ninjaName || ninjaWeapon) return;
-						else return close();
-					}}
+					onClose={close}
+					closeOnClickOutside={false}
 					title='Create Ninja'
 				>
 					<CreateNinja
