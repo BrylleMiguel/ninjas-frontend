@@ -2,7 +2,7 @@ import {
 	Box,
 	Button,
 	Container,
-	Flex,
+	HoverCard,
 	Paper,
 	Select,
 	Text,
@@ -14,8 +14,8 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { createNinja, getWeapon } from '../../api';
 
 export default function CreateNinja(props: any) {
-	const { ninjaName, ninjaWeapon, setNinjaName, setNinjaWeapon } = props;
 	const queryClient = useQueryClient();
+	const { ninjaName, ninjaWeapon, setNinjaName, setNinjaWeapon, close } = props;
 
 	const { data: ninjaMutation, mutate } = useMutation({
 		mutationFn: createNinja,
@@ -64,8 +64,23 @@ export default function CreateNinja(props: any) {
 						onChange={(e) => setNinjaName(e.target.value)}
 						autoComplete='off'
 					/>
-					<br />
+					<Paper pt={20} />
 
+					<HoverCard shadow='lg' position='right' width={500}>
+						<HoverCard.Target>
+							<Button radius={0} variant='subtle'>
+								Weapons
+							</Button>
+						</HoverCard.Target>
+						<HoverCard.Dropdown p={10}>
+							<div>
+								Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+								Quibusdam consectetur ad velit possimus mollitia totam quas
+								laudantium expedita eum voluptate earum iste quae deleniti nisi,
+								error quos corrupti, libero molestiae.
+							</div>
+						</HoverCard.Dropdown>
+					</HoverCard>
 					<Select
 						data={weaponList}
 						placeholder='Primary Weapon'
@@ -74,24 +89,15 @@ export default function CreateNinja(props: any) {
 						onChange={(value) => setNinjaWeapon(value)}
 					/>
 
-					<Flex justify='flex-end'>
-						<Button.Group
-							sx={{ position: 'fixed', bottom: 20, borderRadius: 5 }}
-							bg='gray'
-						>
-							<Button radius={0} variant='subtle'>
-								View Weapons
-							</Button>
-							<Button
-								radius={0}
-								variant='subtle'
-								onSubmit={onSubmitHandler}
-								type='submit'
-							>
-								Create Ninja
-							</Button>
-						</Button.Group>
-					</Flex>
+					<Button
+						radius={0}
+						variant='outline'
+						onSubmit={onSubmitHandler}
+						type='submit'
+						sx={{ position: 'fixed', bottom: 30 }}
+					>
+						Create Ninja
+					</Button>
 				</form>
 			</div>
 			{ninjaWeapon && (
@@ -123,5 +129,10 @@ export default function CreateNinja(props: any) {
 			name: ninjaName,
 			primaryWeapon: { ...selectedWeapon, id: nanoid() },
 		});
+
+		close();
+
+		setNinjaName('');
+		setNinjaWeapon('');
 	}
 }
