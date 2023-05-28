@@ -9,7 +9,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import React, { useState } from 'react';
-import { GiGrab, GiNinjaHead, GiNinjaHeroicStance } from 'react-icons/gi';
+import { GiGrab, GiNinjaHead, GiNinjaStar } from 'react-icons/gi';
 import { SiBuildkite, SiElement } from 'react-icons/si';
 import { Link, Route, Routes } from 'react-router-dom';
 import CharacterList from './components/character/CharacterList';
@@ -24,7 +24,7 @@ function App() {
 
 	const routesList = [
 		{
-			icon: GiNinjaHeroicStance,
+			icon: GiNinjaStar,
 			label: 'ninjas',
 			description: 'Created ninjas',
 		},
