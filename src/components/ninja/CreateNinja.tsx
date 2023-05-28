@@ -12,6 +12,7 @@ import { nanoid } from 'nanoid';
 import { GiNinjaHead, GiSwitchWeapon } from 'react-icons/gi';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { createNinja, getWeapon } from '../../api';
+import { weaponList } from '../../weapon-list';
 
 export default function CreateNinja(props: any) {
 	const queryClient = useQueryClient();
@@ -33,19 +34,6 @@ export default function CreateNinja(props: any) {
 		queryFn: () => getWeapon(ninjaWeapon),
 		enabled: !!ninjaWeapon,
 	});
-
-	// weapon list
-
-	const weaponList = [
-		{
-			value: 'long-sword',
-			label: 'Long Sword',
-		},
-		{
-			value: 'axe',
-			label: 'Axe',
-		},
-	];
 
 	console.log({ ninjaWeapon, selectedWeapon });
 

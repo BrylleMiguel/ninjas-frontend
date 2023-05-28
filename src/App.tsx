@@ -2,6 +2,7 @@ import { Button, Container, Drawer, createStyles, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import React, { useState } from 'react';
 import { GiNinjaHead } from 'react-icons/gi';
+import CharacterList from './components/character/CharacterList';
 import CreateNinja from './components/ninja/CreateNinja';
 import NinjaList from './components/ninja/NinjaList';
 
@@ -15,12 +16,13 @@ function App() {
 	const { classes } = useStyles();
 	const [opened, { open, close }] = useDisclosure(false);
 
-	const [ninjaName, setNinjaName] = useState('');
+	const [ninjaName, setNinjaName] = useState(undefined);
 	const [ninjaWeapon, setNinjaWeapon] = useState<string | null>(null);
 
 	return (
 		<React.Fragment>
 			<Container mt={10}>
+				<CharacterList />
 				<Drawer
 					classNames={{
 						title: classes.title,

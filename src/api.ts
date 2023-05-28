@@ -24,6 +24,11 @@ export async function getNinjas() {
 	const response = await fetch('http://localhost:3000/ninja/all');
 	return response.json();
 }
+// ________CHARACTERS_________
+
+export async function getCharacters() {
+	return (await fetch('http://localhost:3000/character/all')).json();
+}
 
 // ________WEAPONS____________
 
