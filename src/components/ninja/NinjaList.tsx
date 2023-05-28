@@ -1,4 +1,4 @@
-import { Divider, Text, Title } from '@mantine/core';
+import { Box, Text, Title } from '@mantine/core';
 import { GiNinjaStar } from 'react-icons/gi';
 import { useQuery } from 'react-query';
 import { getNinjas } from '../../api';
@@ -10,9 +10,8 @@ export default function NinjaList() {
 	});
 
 	return (
-		<>
+		<Box mt={10}>
 			<Title>{<GiNinjaStar />} Ninjas</Title>
-			<Divider />
 			{ninjas?.map((ninja: any) => {
 				return (
 					<main key={ninja?.id}>
@@ -21,6 +20,6 @@ export default function NinjaList() {
 					</main>
 				);
 			})}
-		</>
+		</Box>
 	);
 }

@@ -1,6 +1,7 @@
 import {
 	Button,
 	Container,
+	Divider,
 	Flex,
 	NavLink,
 	ScrollArea,
@@ -55,8 +56,9 @@ function App() {
 
 	return (
 		<React.Fragment>
-			<Container mt={10}>
+			<Container mt={30}>
 				<Flex>{routes}</Flex>
+				<Divider />
 				<Routes>
 					<Route
 						path='/'
