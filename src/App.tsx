@@ -9,13 +9,8 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import React, { useState } from 'react';
-import {
-	GiCharacter,
-	GiDropWeapon,
-	GiNinjaHead,
-	GiNinjaHeroicStance,
-} from 'react-icons/gi';
-import { SiCmake } from 'react-icons/si';
+import { GiGrab, GiNinjaHead, GiNinjaHeroicStance } from 'react-icons/gi';
+import { SiBuildkite, SiElement } from 'react-icons/si';
 import { Link, Route, Routes } from 'react-router-dom';
 import CharacterList from './components/character/CharacterList';
 import CreateNinja from './components/ninja/CreateNinja';
@@ -33,9 +28,9 @@ function App() {
 			label: 'ninjas',
 			description: 'Created ninjas',
 		},
-		{ icon: GiCharacter, label: 'characters', description: 'Character list' },
-		{ icon: GiDropWeapon, label: 'weapons', description: 'weapon list' },
-		{ icon: SiCmake, label: 'create-ninja', description: 'Create a ninja' },
+		{ icon: SiElement, label: 'characters', description: 'Character list' },
+		{ icon: GiGrab, label: 'weapons', description: 'weapon list' },
+		{ icon: SiBuildkite, label: 'create-ninja', description: 'Create a ninja' },
 	];
 
 	const [activeRoute, setActiveRoute] = useState(0);
@@ -45,11 +40,12 @@ function App() {
 			<NavLink
 				key={item.label}
 				active={index === activeRoute}
-				icon={<item.icon />}
+				icon={<item.icon size='30' />}
 				label={item.label}
 				description={item.description}
 				onClick={() => setActiveRoute(index)}
 				variant='subtle'
+				mr={20}
 			/>
 		</Link>
 	));
