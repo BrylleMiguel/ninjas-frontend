@@ -13,6 +13,7 @@ export default function CharacterList() {
 			{characters?.map((character: any) => {
 				return (
 					<Image
+						key={character.id}
 						width={50}
 						src={`../src/assets/${character.element}-ninja.png`}
 						alt={character.name}
