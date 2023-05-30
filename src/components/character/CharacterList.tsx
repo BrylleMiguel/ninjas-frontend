@@ -54,9 +54,6 @@ export default function CharacterList() {
 									alt={character.name}
 								/>
 								<Box ml={10}>
-									<Text fz='sm' fw='bold' td='underline'>
-										Data
-									</Text>
 									<Text fz='sm' mb={3}>
 										id: {character.id}
 									</Text>
@@ -67,7 +64,7 @@ export default function CharacterList() {
 										damage: +{character.bonusDamage} (pure damage)
 									</Text>
 									<Text fz='sm' mb={3}>
-										element damage: +{character.bonusElementDamage}{' '}
+										{character.element} damage: +{character.bonusElementDamage}{' '}
 									</Text>
 								</Box>
 							</Flex>

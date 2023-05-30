@@ -9,12 +9,19 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import React, { useState } from 'react';
-import { GiGrab, GiNinjaHead, GiNinjaStar } from 'react-icons/gi';
-import { SiBuildkite, SiElement } from 'react-icons/si';
+import {
+	GiCube,
+	GiGrab,
+	GiNinjaHead,
+	GiNinjaStar,
+	GiPlantsAndAnimals,
+} from 'react-icons/gi';
+import { SiElement } from 'react-icons/si';
 import { Link, Route, Routes } from 'react-router-dom';
 import CharacterList from './components/character/CharacterList';
 import CreateNinja from './components/ninja/CreateNinja';
 import NinjaList from './components/ninja/NinjaList';
+import WeaponList from './components/weapon/WeaponList';
 
 function App() {
 	const [ninjaName, setNinjaName] = useState(undefined);
@@ -29,8 +36,13 @@ function App() {
 			description: 'Created ninjas',
 		},
 		{ icon: SiElement, label: 'characters', description: 'Character list' },
-		{ icon: GiGrab, label: 'weapons', description: 'weapon list' },
-		{ icon: SiBuildkite, label: 'create-ninja', description: 'Create a ninja' },
+		{ icon: GiGrab, label: 'weapons', description: 'Weapon list' },
+		{
+			icon: GiPlantsAndAnimals,
+			label: 'companion',
+			description: 'Pets on your side',
+		},
+		{ icon: GiCube, label: 'create-ninja', description: 'Create a ninja' },
 	];
 
 	const [activeRoute, setActiveRoute] = useState(0);
@@ -40,7 +52,7 @@ function App() {
 			<NavLink
 				key={item.label}
 				active={index === activeRoute}
-				icon={<item.icon size='30' />}
+				icon={<item.icon size='20' />}
 				label={item.label}
 				description={item.description}
 				onClick={() => setActiveRoute(index)}
@@ -189,7 +201,7 @@ function App() {
 					/>
 					<Route path='characters' element={<CharacterList />} />
 					<Route path='ninjas' element={<NinjaList />} />
-					<Route path='weapons' element={<>weapon here</>} />
+					<Route path='weapons' element={<WeaponList />} />
 				</Routes>
 			</Container>
 		</React.Fragment>

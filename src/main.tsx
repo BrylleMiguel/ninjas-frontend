@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 			<MantineProvider
 				withNormalizeCSS
 				withGlobalStyles
-				theme={{ colorScheme: 'dark' }}
+				theme={{ colorScheme: 'dark', fontFamily: 'Potta One' }}
 			>
 				<BrowserRouter>
 					<App />
