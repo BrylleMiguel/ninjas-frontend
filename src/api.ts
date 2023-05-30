@@ -32,7 +32,7 @@ export async function getCharacters() {
 
 // ________WEAPONS____________
 
-export async function getWeaponList() {
+export async function getPrimaryWeaponList() {
 	const response = await fetch('http://localhost:3000/weapons');
 	return response.json();
 }
@@ -51,4 +51,12 @@ export async function getWeapon(name: string | null) {
 	} catch (error) {
 		console.log(error);
 	}
+}
+
+export async function getSecondaryWeaponList() {
+	return (await fetch('http://localhost:3000/secondary-weapon/all')).json();
+}
+
+export async function getAccessoryList() {
+	return (await fetch('http://localhost:3000/accessory/all')).json();
 }

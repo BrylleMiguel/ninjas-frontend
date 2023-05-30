@@ -1,12 +1,28 @@
 import { Box, Table, Text } from '@mantine/core';
 import { useQuery } from 'react-query';
-import { getWeaponList } from '../../api';
+import {
+	getAccessoryList,
+	getPrimaryWeaponList,
+	getSecondaryWeaponList,
+} from '../../api';
 
 export default function WeaponList() {
-	const { data: weapons } = useQuery({
-		queryKey: ['weapons'],
-		queryFn: getWeaponList,
+	const { data: primaryWeapons } = useQuery({
+		queryKey: ['primary-weapons'],
+		queryFn: getPrimaryWeaponList,
 	});
+
+	const { data: secondaryWeapons } = useQuery({
+		queryKey: ['secondary-weapons'],
+		queryFn: getSecondaryWeaponList,
+	});
+
+	const { data: accessories } = useQuery({
+		queryKey: ['accessories'],
+		queryFn: getAccessoryList,
+	});
+
+	console.log({ secondaryWeapons, accessories });
 	return (
 		<Box mt={10}>
 			<Text fz='xl'>Primary Weapons</Text>
@@ -22,7 +38,7 @@ export default function WeaponList() {
 					</tr>
 				</thead>
 				<tbody>
-					{weapons?.map((weapon: any) => {
+					{primaryWeapons?.map((weapon: any) => {
 						const { id, attackSpeed, damage, damageType, name, weaponType } =
 							weapon;
 						return (
