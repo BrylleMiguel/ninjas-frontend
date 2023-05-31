@@ -1,4 +1,4 @@
-import { Box, Table, Text } from '@mantine/core';
+import { Box, List, Table, Text } from '@mantine/core';
 import { useQuery } from 'react-query';
 import {
 	getAccessoryList,
@@ -26,7 +26,7 @@ export default function WeaponList() {
 	return (
 		<Box mt={10}>
 			<Text fz='xl'>Primary Weapons</Text>
-			<Table striped highlightOnHover withBorder withColumnBorders mt={10}>
+			<Table striped highlightOnHover withBorder withColumnBorders my={10}>
 				<thead>
 					<tr>
 						<th>id</th>
@@ -54,6 +54,20 @@ export default function WeaponList() {
 					})}
 				</tbody>
 			</Table>
+
+			<Text fz='xl'>Secondary Weapons</Text>
+			<List type='ordered'>
+				{secondaryWeapons?.map((weapon: any) => {
+					return <List.Item key={weapon.id}>{weapon.name}</List.Item>;
+				})}
+			</List>
+
+			<Text fz='xl'>Accessories</Text>
+			<List type='ordered'>
+				{accessories?.map((accessory: any) => {
+					return <List.Item key={accessory.id}>{accessory.name}</List.Item>;
+				})}
+			</List>
 		</Box>
 	);
 }

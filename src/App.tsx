@@ -65,7 +65,7 @@ function App() {
 	return (
 		<React.Fragment>
 			<Container mt={30}>
-				<Flex>{routes}</Flex>
+				<Flex justify='space-between'>{routes}</Flex>
 				<Divider />
 				<Routes>
 					<Route
