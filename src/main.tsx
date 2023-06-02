@@ -8,11 +8,7 @@ import App from './App.tsx';
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
 		<QueryClientProvider client={new QueryClient()}>
-			<MantineProvider
-				withNormalizeCSS
-				withGlobalStyles
-				theme={{ colorScheme: 'dark', fontFamily: 'Potta One' }}
-			>
+			<MantineProvider withNormalizeCSS withGlobalStyles theme={{ colorScheme: 'dark', fontFamily: 'Nanum Brush Script' }}>
 				<BrowserRouter>
 					<App />
 				</BrowserRouter>

@@ -1,15 +1,4 @@
-import {
-	Box,
-	Button,
-	Drawer,
-	HoverCard,
-	Paper,
-	Select,
-	Text,
-	TextInput,
-	createStyles,
-	rem,
-} from '@mantine/core';
+import { Box, Button, Drawer, HoverCard, Paper, Select, Text, TextInput, createStyles, rem } from '@mantine/core';
 import { nanoid } from 'nanoid';
 import { GiNinjaHead, GiSwitchWeapon } from 'react-icons/gi';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -18,14 +7,7 @@ import { weaponList } from '../../weapon-list';
 
 export default function CreateNinja(props: any) {
 	const queryClient = useQueryClient();
-	const {
-		ninjaName,
-		ninjaWeapon,
-		setNinjaName,
-		setNinjaWeapon,
-		close,
-		opened,
-	} = props;
+	const { ninjaName, ninjaWeapon, setNinjaName, setNinjaWeapon, close, opened } = props;
 
 	const useStyles = createStyles((theme) => ({
 		title: {
@@ -88,10 +70,8 @@ export default function CreateNinja(props: any) {
 							</HoverCard.Target>
 							<HoverCard.Dropdown p={10}>
 								<div>
-									Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-									Quibusdam consectetur ad velit possimus mollitia totam quas
-									laudantium expedita eum voluptate earum iste quae deleniti
-									nisi, error quos corrupti, libero molestiae.
+									Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quibusdam consectetur ad velit possimus mollitia totam quas
+									laudantium expedita eum voluptate earum iste quae deleniti nisi, error quos corrupti, libero molestiae.
 								</div>
 							</HoverCard.Dropdown>
 						</HoverCard>
@@ -102,14 +82,10 @@ export default function CreateNinja(props: any) {
 							value={ninjaWeapon}
 							onChange={(value) => setNinjaWeapon(value)}
 						/>
+						<Button>add accessory?</Button>
+						<Button>bring a companion?</Button>
 
-						<Button
-							radius={0}
-							variant='outline'
-							onSubmit={onSubmitHandler}
-							type='submit'
-							sx={{ position: 'fixed', bottom: 30 }}
-						>
+						<Button radius={0} variant='outline' onSubmit={onSubmitHandler} type='submit' sx={{ position: 'fixed', bottom: 30 }}>
 							Create Ninja
 						</Button>
 					</form>
@@ -121,14 +97,9 @@ export default function CreateNinja(props: any) {
 						</Text>
 						<Paper>
 							<Text fz='sm'>chosen weapon: {selectedWeapon?.id}</Text>
-							<Text fz='sm'>
-								chosen weapon:{' '}
-								{selectedWeapon?.name === 'long-sword' ? 'Long Sword' : 'Axe'}
-							</Text>
+							<Text fz='sm'>chosen weapon: {selectedWeapon?.name === 'long-sword' ? 'Long Sword' : 'Axe'}</Text>
 							<Text fz='sm'>weapon damage: {selectedWeapon?.damage}</Text>
-							<Text fz='sm'>
-								weapon damage type: {selectedWeapon?.damageType}
-							</Text>
+							<Text fz='sm'>weapon damage type: {selectedWeapon?.damageType}</Text>
 							<Text fz='sm'>weapon speed: {selectedWeapon?.attackSpeed}</Text>
 							<Text fz='sm'>weapon type: {selectedWeapon?.weaponType}</Text>
 						</Paper>
