@@ -30,6 +30,7 @@ function App() {
 	const [opened, { open, close }] = useDisclosure(false);
 
 	const routesList = [
+		{ icon: GiCube, label: 'story', description: 'story line' },
 		{
 			icon: GiNinjaStar,
 			label: 'ninjas',
@@ -48,7 +49,11 @@ function App() {
 	const [activeRoute, setActiveRoute] = useState(0);
 
 	const routes = routesList.map((item, index) => (
-		<Link key={item.label} to={`/${item.label}`} style={{ all: 'unset' }}>
+		<Link
+			key={item.label}
+			to={item.label === 'story' ? '/' : `/${item.label}`}
+			style={{ all: 'unset' }}
+		>
 			<NavLink
 				key={item.label}
 				active={index === activeRoute}
@@ -65,7 +70,7 @@ function App() {
 	return (
 		<React.Fragment>
 			<Container mt={30}>
-				<Flex justify='space-between'>{routes}</Flex>
+				<Flex justify='space-between'> {routes}</Flex>
 				<Divider />
 				<Routes>
 					<Route
