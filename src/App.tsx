@@ -148,6 +148,7 @@ function App() {
 					<Route path='characters' element={<CharacterList />} />
 					<Route path='ninjas' element={<NinjaList />} />
 					<Route path='weapons' element={<WeaponList />} />
+					<Route path='companion' element={<>companion</>} />
 				</Routes>
 			</Container>
 		</React.Fragment>
